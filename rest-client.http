@@ -1,6 +1,8 @@
 @baseUrl = http://localhost:8080
 
 GET {{baseUrl}}/categories
+###
+GET {{baseUrl}}/categories/page
 
 ###
 GET  {{baseUrl}}/categories/4
