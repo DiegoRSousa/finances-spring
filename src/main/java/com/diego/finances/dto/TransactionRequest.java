@@ -24,8 +24,8 @@ public class TransactionRequest {
 	@NotNull(message = "Preenchimento obrigatório")
 	private Long categoryId;
 	
-	public Transaction toModel() {
-		return new Transaction(type, date, amount, description, new Category(categoryId));
+	public Transaction toModel(Category category) {
+		return new Transaction(type, date, amount, description, new Category(category));
 	}
 	
 	public String getType() {

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.diego.finances.CategoryService;
 import com.diego.finances.Repository.TransactionRepository;
 import com.diego.finances.dto.TransactionRequest;
 import com.diego.finances.dto.TransactionResponse;
@@ -33,6 +34,8 @@ public class TransactionController {
 
 	@Autowired
 	private TransactionRepository transactionRepository;
+	@Autowired
+	private CategoryService categoryService;
 	
 	@GetMapping 
 	public ResponseEntity<List<TransactionResponse>> findAll() {
@@ -58,17 +61,18 @@ public class TransactionController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Transaction> save(@Valid @RequestBody TransactionRequest transactionRequest) {
-		var transaction = transactionRepository.save(transactionRequest.toModel());
-		
-		return new ResponseEntity<Transaction>(transaction, HttpStatus.CREATED);
+	public ResponseEntity<TransactionResponse> save(@Valid @RequestBody TransactionRequest transactionRequest) {
+		var category = categoryService.findById(transactionRequest.getCategoryId());	
+		var transaction = transactionRepository.save(transactionRequest.toModel(category));
+		return new ResponseEntity<TransactionResponse>(new TransactionResponse(transaction), HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Transaction> update(@PathVariable Long id, 
 				@Valid @RequestBody TransactionRequest transactionRequest) {
 		var transaction = findById(id);
-		transaction.update(transactionRequest.toModel());
+		var category = categoryService.findById(transactionRequest.getCategoryId());
+		transaction.update(transactionRequest.toModel(category));
 		transactionRepository.save(transaction);
 		return ResponseEntity.ok(transaction);
 	}

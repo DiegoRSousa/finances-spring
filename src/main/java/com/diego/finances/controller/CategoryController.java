@@ -21,11 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.diego.finances.CategoryService;
 import com.diego.finances.Repository.CategoryRepository;
 import com.diego.finances.dto.CategoryRequest;
 import com.diego.finances.dto.CategoryResponse;
-import com.diego.finances.exception.ObjectNotFoundException;
-import com.diego.finances.model.Category;
 
 @RestController
 @RequestMapping("/categories")
@@ -33,6 +32,8 @@ public class CategoryController {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
+	@Autowired
+	private CategoryService categoryService;
 	
 	@GetMapping
 	public ResponseEntity<List<CategoryResponse>> findAll() {
@@ -53,32 +54,28 @@ public class CategoryController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<CategoryResponse> find(@PathVariable Long id) {
-		var category = findById(id);
+		var category = categoryService.findById(id);
 		return ResponseEntity.ok(new CategoryResponse(category));
 	}
 	
 	@PostMapping
-	public ResponseEntity<Category> save(@Valid @RequestBody CategoryRequest categoryRequest) {
+	public ResponseEntity<CategoryResponse> save(@Valid @RequestBody CategoryRequest categoryRequest) {
 		var category = categoryRepository.save(categoryRequest.toModel());
-		return new ResponseEntity<Category>(category, HttpStatus.CREATED);
+		return new ResponseEntity<CategoryResponse>(new CategoryResponse(category), HttpStatus.CREATED);
 	}	
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Category> update(@PathVariable Long id, @Valid @RequestBody CategoryRequest categoryRequest) {
-		var category = findById(id);
+	public ResponseEntity<CategoryResponse> update(@PathVariable Long id, @Valid @RequestBody CategoryRequest categoryRequest) {
+		var category = categoryService.findById(id);
 		category.update(categoryRequest.toModel());
 		categoryRepository.save(category);
-		return ResponseEntity.ok(category);
+		return ResponseEntity.ok(new CategoryResponse(category));
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		var category = findById(id);
+		var category = categoryService.findById(id);
 		categoryRepository.delete(category);
 		return ResponseEntity.noContent().build();
-	}
-	
-	private Category findById(Long id) {
-		return categoryRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(id));
 	}
 }

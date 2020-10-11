@@ -7,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Category {
@@ -27,8 +26,9 @@ public class Category {
 		this.description = description;
 	}
 	
-	public Category(@NotEmpty Long id) {
-		this.id = id;
+	public Category(Category category) {
+		this.id =  category.id;
+		this.description = category.description;
 	}
 	
 	public void update(Category category) {
