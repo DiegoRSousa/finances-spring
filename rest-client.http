@@ -25,3 +25,21 @@ Content-Type: application/json
 
 ###
 DELETE {{baseUrl}}/categories/4
+
+###
+GET {{baseUrl}}/transactions
+###
+GET {{baseUrl}}/transactions/page
+###
+GET  {{baseUrl}}/transactions/12
+###
+POST {{baseUrl}}/transactions
+Content-Type: application/json
+
+{
+    "type": "EXPENSES",
+    "date": "2020-10-10",
+    "amount": 30.00,
+    "description": "Teclado Mecânico",
+    "categoryId": 3
+}
