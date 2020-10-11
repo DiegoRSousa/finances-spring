@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
@@ -25,6 +26,7 @@ import com.diego.finances.CategoryService;
 import com.diego.finances.Repository.CategoryRepository;
 import com.diego.finances.dto.CategoryRequest;
 import com.diego.finances.dto.CategoryResponse;
+import com.diego.finances.exception.DataIntegrityException;
 
 @RestController
 @RequestMapping("/categories")
@@ -75,7 +77,12 @@ public class CategoryController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		var category = categoryService.findById(id);
-		categoryRepository.delete(category);
+		try {
+			categoryRepository.delete(category);			
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é posível excluir uma categoria que possui produtos!");
+		}
+
 		return ResponseEntity.noContent().build();
-	}
+	}	
 }
