@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.diego.finances.CategoryService;
 import com.diego.finances.Repository.TransactionRepository;
 import com.diego.finances.dto.TransactionRequest;
 import com.diego.finances.dto.TransactionResponse;
 import com.diego.finances.exception.ObjectNotFoundException;
 import com.diego.finances.model.Transaction;
+import com.diego.finances.service.CategoryService;
 
 @RestController
 @RequestMapping("/transactions")
@@ -60,6 +60,13 @@ public class TransactionController {
 		return ResponseEntity.ok(new TransactionResponse(transaction));
 	}
 	
+	@GetMapping("/description/{description}")
+	public ResponseEntity<List<TransactionResponse>> findByDescription(@PathVariable String description) {
+		var transactions = transactionRepository.findByDescriptionLike(description)
+								.stream().map(TransactionResponse::new).collect(Collectors.toList());
+		return ResponseEntity.ok(transactions);
+	}
+	
 	@PostMapping
 	public ResponseEntity<TransactionResponse> save(@Valid @RequestBody TransactionRequest transactionRequest) {
 		var category = categoryService.findById(transactionRequest.getCategoryId());	
@@ -85,6 +92,7 @@ public class TransactionController {
 	}
 	
 	private Transaction findById(Long id) {
-		return transactionRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(id));
+		return transactionRepository.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException(id, Transaction.class.getSimpleName()));
 	}
 }

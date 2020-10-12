@@ -1,4 +1,4 @@
-package com.diego.finances;
+package com.diego.finances.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +14,6 @@ public class CategoryService {
 	private CategoryRepository categoryRepository;
 	
 	public Category findById(Long id) {
-		return categoryRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(id));
+		return categoryRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(id, Category.class.getSimpleName()));
 	}
 }

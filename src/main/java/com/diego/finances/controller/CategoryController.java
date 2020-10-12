@@ -22,11 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.diego.finances.CategoryService;
 import com.diego.finances.Repository.CategoryRepository;
 import com.diego.finances.dto.CategoryRequest;
 import com.diego.finances.dto.CategoryResponse;
 import com.diego.finances.exception.DataIntegrityException;
+import com.diego.finances.service.CategoryService;
 
 @RestController
 @RequestMapping("/categories")
@@ -60,6 +60,13 @@ public class CategoryController {
 		return ResponseEntity.ok(new CategoryResponse(category));
 	}
 	
+	@GetMapping("/description/{description}")
+	public ResponseEntity<List<CategoryResponse>> findByDescription(@PathVariable String description) {
+		var categories = categoryRepository.findByDescriptionLike(description)
+							.stream().map(CategoryResponse::new).collect(Collectors.toList());
+		return ResponseEntity.ok(categories);
+	}
+
 	@PostMapping
 	public ResponseEntity<CategoryResponse> save(@Valid @RequestBody CategoryRequest categoryRequest) {
 		var category = categoryRepository.save(categoryRequest.toModel());

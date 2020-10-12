@@ -6,6 +6,8 @@ GET {{baseUrl}}/categories/page
 
 ###
 GET  {{baseUrl}}/categories/4
+###
+GET {{baseUrl}}/categories/description/Mo%
 
 ###
 POST {{baseUrl}}/categories
@@ -16,7 +18,7 @@ Content-Type: application/json
 }
 
 ###
-PUT {{baseUrl}}/categories/456
+PUT {{baseUrl}}/categories/4
 Content-Type: application/json
 
 {
@@ -24,22 +26,37 @@ Content-Type: application/json
 }
 
 ###
-DELETE {{baseUrl}}/categories/4
+DELETE {{baseUrl}}/categories/3
 
 ###
 GET {{baseUrl}}/transactions
 ###
 GET {{baseUrl}}/transactions/page
 ###
-GET  {{baseUrl}}/transactions/12
+GET  {{baseUrl}}/transactions/1
+###
+GET {{baseUrl}}/transactions/description/%Mec%
 ###
 POST {{baseUrl}}/transactions
 Content-Type: application/json
 
 {
     "type": "EXPENSES",
+    "date": "2020-10-11",
+    "amount": 600.00,
+    "description": "Teclado mecânico Logitec",
+    "categoryId": 33
+}
+###
+PUT {{baseUrl}}/transactions/3
+Content-Type: application/json
+
+{
+    "type": "EXPENSES",
     "date": "2020-10-10",
-    "amount": 30.00,
+    "amount": 20.00,
     "description": "Teclado Mecânico",
     "categoryId": 3
 }
+###
+DELETE {{baseUrl}}/transactions/3
