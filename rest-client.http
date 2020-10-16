@@ -31,7 +31,7 @@ DELETE {{baseUrl}}/categories/3
 ###
 GET {{baseUrl}}/transactions
 ###
-GET {{baseUrl}}/transactions/page
+GET {{baseUrl}}/transactions/page?page=0&size=5&sort=amount,desc
 ###
 GET  {{baseUrl}}/transactions/1
 ###
