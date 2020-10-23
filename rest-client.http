@@ -1,11 +1,21 @@
 @baseUrl = http://localhost:8080
 
+POST {{baseUrl}}/auth
+Content-Type: application/json 
+
+{
+    "username": "admin",
+    "password": "123"
+
+}
+###
 GET {{baseUrl}}/categories
 ###
 GET {{baseUrl}}/categories/page
 
 ###
 GET  {{baseUrl}}/categories/4
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJGaW5hbmNlcyIsInN1YiI6IjEiLCJpYXQiOjE2MDM0NDgzNTgsImV4cCI6MTYwMzQ0ODk1OH0.D9Qbb56yP9IFmn3AX-70TPIlfgGgbC3CSXVnEGxrRDw
 ###
 GET {{baseUrl}}/categories/description/Mo%
 
