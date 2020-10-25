@@ -1,4 +1,4 @@
-package com.diego.finances.config.security;
+package com.diego.finances.config;
 
 import java.io.IOException;
 
