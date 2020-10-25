@@ -1,5 +1,10 @@
 @baseUrl = http://localhost:8080
-
+GET {{baseUrl}}/actuator
+###
+GET {{baseUrl}}/actuator/health
+###
+GET {{baseUrl}}/actuator/info
+###
 POST {{baseUrl}}/auth
 Content-Type: application/json 
 
@@ -14,8 +19,8 @@ GET {{baseUrl}}/categories
 GET {{baseUrl}}/categories/page
 
 ###
-GET  {{baseUrl}}/categories/4
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJGaW5hbmNlcyIsInN1YiI6IjEiLCJpYXQiOjE2MDM0NDgzNTgsImV4cCI6MTYwMzQ0ODk1OH0.D9Qbb56yP9IFmn3AX-70TPIlfgGgbC3CSXVnEGxrRDw
+GET  {{baseUrl}}/categories/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJGaW5hbmNlcyIsInN1YiI6IjEiLCJpYXQiOjE2MDM0NTA5ODcsImV4cCI6MTYwMzQ1MTU4N30.o_dPXlqJHXDWjxWc7S3taMR4WZVShCmBwL6p866-Xc8
 ###
 GET {{baseUrl}}/categories/description/Mo%
 
